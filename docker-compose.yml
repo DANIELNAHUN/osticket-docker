@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  otweb:
+    image: nginx:alpine
+    container_name: osticket_web
+    ports:
+      - "8090:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./upload:/var/www/html
+    depends_on:
+      - otphp
+
+  otphp:
+    build: .
+    container_name: osticket_php
+    volumes:
+      - ./upload:/var/www/html
+      # - ./php.ini:/usr/local/etc/php/php.ini
+    # depends_on:
+    #   - otdb
+
+  # otdb:
+  #   image: mariadb:10.5
+  #   container_name: osticket_db
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 101299
+  #     MYSQL_DATABASE: osticket
+  #     MYSQL_USER: dcalcina
+  #     MYSQL_PASSWORD: 101299
+  #   volumes:
+  #     - db_data:/var/lib/mysql
+
+# volumes:
+#   db_data:
